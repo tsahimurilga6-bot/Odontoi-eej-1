@@ -199,25 +199,38 @@ body{
 /* 1-Р ХУУДАС */
 .cover-title{
  font-family:'Cormorant Garamond',serif;
- font-size:clamp(48px,12vw,65px);
+ font-size:clamp(44px,11vw,60px);
  line-height:1.05;
  font-style:italic;
  font-weight:500;
  color:var(--gold2);
- margin:22px 0;
+ margin:16px 0;
  text-shadow:0 3px 25px rgba(241,211,155,.2);
+ transition:opacity .65s ease, transform .65s ease;
 }
 
-/* ДУГТУЙ БА НЭЭГДЭХ ЗУРАГ */
-.envelope{
+/* ДУГТУЙ БА НЭЭГДЭХ БҮТЭН ЗУРАГ */
+.envelope-stage{
+ position:relative;
  width:min(290px,80vw);
- height:185px;
- margin:45px auto 35px;
+ min-height:215px;
+ margin:28px auto 26px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ z-index:4;
+}
+
+.envelope{
+ width:100%;
+ height:180px;
  position:relative;
  perspective:1000px;
  cursor:pointer;
  z-index:3;
  filter:drop-shadow(0 15px 25px rgba(0,0,0,.4));
+ transition:opacity .65s ease, transform .75s ease;
 }
 .env-back{
  position:absolute;
@@ -225,50 +238,6 @@ body{
  background:linear-gradient(135deg,#a35c68,#51182e);
  border:1px solid var(--gold);
 }
-
-/* Дугтуй нээгдэхэд гарч ирэх зураг */
-.env-reveal-photo{
- position:absolute;
- left:50%;
- bottom:14px;
- width:84%;
- height:86%;
- transform:translate(-50%, 10px) scale(0.92);
- opacity:0;
- z-index:2;
- border-radius:8px;
- border:1.5px solid var(--gold2);
- overflow:hidden;
- box-shadow:0 12px 30px rgba(0,0,0,.55), 0 0 22px rgba(244,223,176,.28);
- transition:
-  transform 1.15s cubic-bezier(.2,.8,.2,1) .25s,
-  opacity .85s ease .25s;
- pointer-events:none;
-}
-.env-reveal-photo img{
- width:100%;
- height:100%;
- object-fit:cover;
- display:block;
-}
-.env-reveal-photo:after{
- content:"";
- position:absolute;
- inset:0;
- background:linear-gradient(
-  165deg,
-  rgba(255,249,239,.22) 0%,
-  transparent 48%,
-  rgba(38,9,22,.28) 100%
- );
- pointer-events:none;
-}
-.envelope.open .env-reveal-photo{
- opacity:1;
- transform:translate(-50%, -62px) scale(1.04);
- z-index:6;
-}
-
 .env-front{
  position:absolute;
  inset:0;
@@ -281,12 +250,7 @@ body{
   100% 100%,
   0 100%
  );
- transition:opacity .7s ease .55s;
 }
-.envelope.open .env-front{
- opacity:.35;
-}
-
 .env-flap{
  position:absolute;
  inset:0;
@@ -294,15 +258,15 @@ body{
  background:linear-gradient(135deg,#d2a66b,#844354);
  clip-path:polygon(0 0,100% 0,50% 65%);
  transform-origin:top;
- transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+ transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
 }
 
 /* ЛАЦ */
 .seal{
  position:absolute;
  z-index:5;
- width:77px;
- height:77px;
+ width:74px;
+ height:74px;
  left:50%;
  top:49%;
  transform:translate(-50%,-50%);
@@ -324,7 +288,7 @@ body{
  display:flex;
  align-items:center;
  justify-content:center;
- transition:.8s;
+ transition:.75s;
 }
 .seal:before{
  content:"";
@@ -342,7 +306,7 @@ body{
 }
 .seal-flower{
  color:#f5dcae;
- font-size:34px;
+ font-size:32px;
  z-index:1;
 }
 .envelope.open .env-flap{
@@ -352,6 +316,47 @@ body{
  opacity:0;
  transform:translate(-50%,-50%) scale(1.8);
  pointer-events:none;
+}
+
+/* Дугтуй нээгдэхэд тусад нь бүтэн гоёмсог гарч ирэх зургийн жааз */
+.reveal-card{
+ position:absolute;
+ top:50%;
+ left:50%;
+ width:min(265px,76vw);
+ max-height:255px;
+ padding:8px;
+ border-radius:12px;
+ background:linear-gradient(145deg,rgba(244,223,176,.26),rgba(66,19,38,.92));
+ border:1.5px solid var(--gold2);
+ box-shadow:0 18px 40px rgba(0,0,0,.65), 0 0 28px rgba(244,223,176,.25);
+ opacity:0;
+ transform:translate(-50%, -22%) scale(.84);
+ transition:
+  opacity .85s cubic-bezier(.2,.8,.2,1) .35s,
+  transform 1.05s cubic-bezier(.2,.8,.2,1) .35s;
+ pointer-events:none;
+ z-index:10;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+.reveal-card img{
+ width:100%;
+ max-height:235px;
+ object-fit:contain;
+ border-radius:8px;
+ display:block;
+ background:#19050e;
+}
+.envelope-stage.photo-shown .envelope{
+ opacity:0;
+ transform:scale(.94);
+ pointer-events:none;
+}
+.envelope-stage.photo-shown .reveal-card{
+ opacity:1;
+ transform:translate(-50%, -50%) scale(1);
 }
 
 /* ТОВЧ */
@@ -680,27 +685,30 @@ body{
  <div class="particles"></div>
  <div class="content" id="coverContent">
   <div class="ornament">❧</div>
-  <h1 class="cover-title">
+  <h1 class="cover-title" id="coverTitle">
    Танд урилга<br>ирлээ
   </h1>
   <div class="line"></div>
-  <div class="envelope" id="envelope"
-       onclick="openInvitation()">
-   <div class="env-back"></div>
-   <div class="env-reveal-photo">
+
+  <div class="envelope-stage" id="envelopeStage">
+   <div class="envelope" id="envelope" onclick="openInvitation()">
+    <div class="env-back"></div>
+    <div class="env-flap"></div>
+    <div class="env-front"></div>
+    <div class="seal">
+     <span class="seal-flower">❀</span>
+    </div>
+   </div>
+
+   <div class="reveal-card" id="revealCard">
     <img src="photo.jpg" alt="Урилгын зураг">
    </div>
-   <div class="env-flap"></div>
-   <div class="env-front"></div>
-   <div class="seal">
-    <span class="seal-flower">❀</span>
-   </div>
   </div>
-  <button class="open-button"
-          onclick="openInvitation()">
+
+  <button class="open-button" id="openBtn" onclick="openInvitation()">
    УРИЛГА НЭЭХ
   </button>
-  <div class="cover-hint">
+  <div class="cover-hint" id="coverHint">
    ✦ ДАРЖ НЭЭНЭ ҮҮ ✦
   </div>
  </div>
@@ -898,21 +906,29 @@ function openInvitation(){
  startMusic();
  if(isOpened)return;
  isOpened=true;
+
  const envelope=document.getElementById('envelope');
- const coverContent=document.getElementById('coverContent');
+ const stage=document.getElementById('envelopeStage');
+ const coverTitle=document.getElementById('coverTitle');
+ const openBtn=document.getElementById('openBtn');
+ const coverHint=document.getElementById('coverHint');
+
  envelope.classList.add('open');
+
  setTimeout(()=>{
-  coverContent.style.transition=
-   'opacity 1s ease, transform 1s ease';
-  coverContent.style.opacity='0';
-  coverContent.style.transform='translateY(-35px)';
- },1850);
+  coverTitle.style.opacity='0';
+  coverTitle.style.transform='translateY(-14px)';
+  openBtn.style.opacity='0';
+  coverHint.style.opacity='0';
+  stage.classList.add('photo-shown');
+ },550);
+
  setTimeout(()=>{
   document.getElementById('invitation').scrollIntoView({
    behavior:'smooth',
    block:'start'
   });
- },2650);
+ },3100);
 }
 </script>
 
