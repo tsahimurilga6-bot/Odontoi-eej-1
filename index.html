@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#390e20">
+<title>Алдарт эхийн одонгийн урилга</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+ --wine:#421326;
+ --gold:#c9a66b;
+ --gold2:#f4dfb0;
+ --cream:#fff9ef;
+}
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+html{
+ scroll-behavior:smooth;
+ scroll-snap-type:y mandatory;
+}
+body{
+ background:#260916;
+ font-family:'Noto Serif',serif;
+ color:var(--cream);
+ overflow-x:hidden;
+}
+
+/* ҮНДСЭН ХУУДАС */
+.page{
+ position:relative;
+ width:100%;
+ min-height:100vh;
+ min-height:100svh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:55px 27px 75px;
+ overflow:hidden;
+ isolation:isolate;
+ scroll-snap-align:start;
+ scroll-snap-stop:always;
+ background:
+ radial-gradient(
+  ellipse at 50% 45%,
+  #79364e 0%,
+  #571c34 48%,
+  #2b0b1a 100%
+ );
+}
+.page:nth-child(even){
+ background:
+ radial-gradient(
+  ellipse at 50% 45%,
+  #743348 0%,
+  #4d172c 52%,
+  #280a18 100%
+ );
+}
+.page:before{
+ content:"";
+ position:absolute;
+ inset:12px;
+ border:1px solid rgba(222,184,117,.48);
+ pointer-events:none;
+ z-index:0;
+}
+.page:after{
+ content:"";
+ position:absolute;
+ inset:19px;
+ border:1px solid rgba(222,184,117,.17);
+ pointer-events:none;
+ z-index:0;
+}
+
+/* ЗӨӨЛӨН ГЭРЭЛ */
+.light{
+ position:absolute;
+ width:300px;
+ height:300px;
+ border-radius:50%;
+ background:rgba(230,188,115,.15);
+ filter:blur(90px);
+ animation:lightmove 8s ease-in-out infinite alternate;
+ z-index:0;
+ pointer-events:none;
+}
+@keyframes lightmove{
+ from{
+  transform:translate(-30px,-20px) scale(.8);
+ }
+ to{
+  transform:translate(40px,30px) scale(1.4);
+ }
+}
+
+/* ХӨДӨЛГӨӨНТ АЛТАН ТООС */
+.particles{
+ position:absolute;
+ inset:0;
+ overflow:hidden;
+ pointer-events:none;
+ z-index:1;
+}
+.spark{
+ position:absolute;
+ width:3px;
+ height:3px;
+ border-radius:50%;
+ background:#ffe6ad;
+ box-shadow:0 0 9px 3px rgba(246,209,142,.45);
+ animation:rise linear infinite;
+}
+@keyframes rise{
+ 0%{
+  transform:translateY(40px) scale(.3);
+  opacity:0;
+ }
+ 20%{
+  opacity:1;
+ }
+ 100%{
+  transform:translateY(-110vh) scale(1.4);
+  opacity:0;
+ }
+}
+
+/* ҮНДСЭН БИЧВЭР */
+.content{
+ width:min(440px,100%);
+ position:relative;
+ z-index:3;
+ text-align:center;
+}
+
+/* БҮХ БИЧВЭР УРСАЖ ГАРАХ */
+.content > *{
+ opacity:0;
+ transform:translateY(30px);
+ filter:blur(5px);
+}
+.page.is-visible .content > *{
+ animation:elegantReveal 1.2s cubic-bezier(.2,.75,.25,1) forwards;
+}
+.page.is-visible .content > *:nth-child(1){ animation-delay:.1s; }
+.page.is-visible .content > *:nth-child(2){ animation-delay:.25s; }
+.page.is-visible .content > *:nth-child(3){ animation-delay:.4s; }
+.page.is-visible .content > *:nth-child(4){ animation-delay:.55s; }
+.page.is-visible .content > *:nth-child(5){ animation-delay:.7s; }
+.page.is-visible .content > *:nth-child(6){ animation-delay:.85s; }
+.page.is-visible .content > *:nth-child(7){ animation-delay:1s; }
+.page.is-visible .content > *:nth-child(8){ animation-delay:1.15s; }
+.page.is-visible .content > *:nth-child(9){ animation-delay:1.3s; }
+
+@keyframes elegantReveal{
+ 0%{
+  opacity:0;
+  transform:translate3d(0,28px,0);
+  filter:blur(5px);
+ }
+ 100%{
+  opacity:1;
+  transform:translate3d(0,0,0);
+  filter:blur(0);
+ }
+}
+
+/* ЧИМЭГЛЭЛ */
+.ornament{
+ color:var(--gold);
+ font-family:'Cormorant Garamond',serif;
+ font-size:38px;
+ margin:22px 0;
+ line-height:1;
+}
+.line{
+ width:95px;
+ height:1px;
+ margin:23px auto;
+ background:linear-gradient(
+  90deg,
+  transparent,
+  var(--gold),
+  transparent
+ );
+}
+.body-text{
+ font-size:13px;
+ line-height:2.2;
+ color:#f4e5d5;
+}
+
+/* 1-Р ХУУДАС */
+.cover-title{
+ font-family:'Cormorant Garamond',serif;
+ font-size:clamp(48px,12vw,65px);
+ line-height:1.05;
+ font-style:italic;
+ font-weight:500;
+ color:var(--gold2);
+ margin:22px 0;
+ text-shadow:0 3px 25px rgba(241,211,155,.2);
+}
+
+/* ДУГТУЙ БА НЭЭГДЭХ ЗУРАГ */
+.envelope{
+ width:min(290px,80vw);
+ height:185px;
+ margin:45px auto 35px;
+ position:relative;
+ perspective:1000px;
+ cursor:pointer;
+ z-index:3;
+ filter:drop-shadow(0 15px 25px rgba(0,0,0,.4));
+}
+.env-back{
+ position:absolute;
+ inset:0;
+ background:linear-gradient(135deg,#a35c68,#51182e);
+ border:1px solid var(--gold);
+}
+
+/* Дугтуй нээгдэхэд гарч ирэх зураг */
+.env-reveal-photo{
+ position:absolute;
+ left:50%;
+ bottom:14px;
+ width:84%;
+ height:86%;
+ transform:translate(-50%, 10px) scale(0.92);
+ opacity:0;
+ z-index:2;
+ border-radius:8px;
+ border:1.5px solid var(--gold2);
+ overflow:hidden;
+ box-shadow:0 12px 30px rgba(0,0,0,.55), 0 0 22px rgba(244,223,176,.28);
+ transition:
+  transform 1.15s cubic-bezier(.2,.8,.2,1) .25s,
+  opacity .85s ease .25s;
+ pointer-events:none;
+}
+.env-reveal-photo img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:block;
+}
+.env-reveal-photo:after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+  165deg,
+  rgba(255,249,239,.22) 0%,
+  transparent 48%,
+  rgba(38,9,22,.28) 100%
+ );
+ pointer-events:none;
+}
+.envelope.open .env-reveal-photo{
+ opacity:1;
+ transform:translate(-50%, -62px) scale(1.04);
+ z-index:6;
+}
+
+.env-front{
+ position:absolute;
+ inset:0;
+ z-index:3;
+ background:linear-gradient(145deg,#752c43,#401124);
+ clip-path:polygon(
+  0 0,
+  50% 63%,
+  100% 0,
+  100% 100%,
+  0 100%
+ );
+ transition:opacity .7s ease .55s;
+}
+.envelope.open .env-front{
+ opacity:.35;
+}
+
+.env-flap{
+ position:absolute;
+ inset:0;
+ z-index:4;
+ background:linear-gradient(135deg,#d2a66b,#844354);
+ clip-path:polygon(0 0,100% 0,50% 65%);
+ transform-origin:top;
+ transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+
+/* ЛАЦ */
+.seal{
+ position:absolute;
+ z-index:5;
+ width:77px;
+ height:77px;
+ left:50%;
+ top:49%;
+ transform:translate(-50%,-50%);
+ border-radius:50%;
+ background:radial-gradient(
+  circle at 32% 25%,
+  #f0b4a6 0%,
+  #b54d59 28%,
+  #81243c 62%,
+  #4b1128 100%
+ );
+ border:3px solid #d6ad72;
+ box-shadow:
+  0 0 0 3px #742a3d,
+  0 0 0 5px #d8b779,
+  0 6px 13px rgba(33,6,17,.7),
+  inset 0 3px 7px rgba(255,255,255,.3),
+  inset 0 -6px 10px rgba(38,7,22,.5);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ transition:.8s;
+}
+.seal:before{
+ content:"";
+ position:absolute;
+ inset:7px;
+ border:1px solid rgba(240,214,165,.75);
+ border-radius:50%;
+}
+.seal:after{
+ content:"";
+ position:absolute;
+ inset:13px;
+ border:1px dashed rgba(240,214,165,.45);
+ border-radius:50%;
+}
+.seal-flower{
+ color:#f5dcae;
+ font-size:34px;
+ z-index:1;
+}
+.envelope.open .env-flap{
+ transform:rotateX(180deg);
+}
+.envelope.open .seal{
+ opacity:0;
+ transform:translate(-50%,-50%) scale(1.8);
+ pointer-events:none;
+}
+
+/* ТОВЧ */
+.open-button{
+ border:1px solid var(--gold);
+ background:linear-gradient(135deg,#e3c58d,#b58950);
+ color:#45172b;
+ padding:15px 40px;
+ font-family:'Noto Serif',serif;
+ font-size:11px;
+ letter-spacing:4px;
+ cursor:pointer;
+ box-shadow:0 5px 20px #0004;
+ transition:.3s;
+}
+.open-button:active{
+ transform:scale(.96);
+}
+.cover-hint{
+ color:#e5cda3;
+ font-size:10px;
+ letter-spacing:3px;
+ margin-top:20px;
+ animation:hint 2s infinite;
+}
+@keyframes hint{
+ 50%{
+  opacity:.4;
+  transform:translateY(4px);
+ }
+}
+
+/* 2-Р ХУУДАС */
+.invite-heading{
+ font-family:'Cormorant Garamond',serif;
+ font-size:54px;
+ font-weight:500;
+ font-style:italic;
+ color:var(--gold2);
+ letter-spacing:2px;
+ margin:8px 0 25px;
+ text-shadow:0 2px 18px rgba(240,205,140,.2);
+}
+.invite-intro{
+ font-family:'Cormorant Garamond',serif;
+ font-size:25px;
+ font-style:italic;
+ color:#f8e8cc;
+ margin:15px 0 24px;
+}
+.invite-name{
+ font-family:'Cormorant Garamond',serif;
+ font-size:34px;
+ line-height:1.3;
+ color:#fff0d1;
+ font-weight:500;
+ margin:15px 0;
+}
+.invite-event{
+ font-family:'Noto Serif',serif;
+ font-size:clamp(22px,6.5vw,28px);
+ font-weight:700;
+ line-height:1.8;
+ color:#f3d99f;
+ margin:20px 0;
+ text-shadow:0 2px 15px rgba(214,167,92,.3);
+}
+.invite-description{
+ font-family:'Cormorant Garamond',serif;
+ font-size:25px;
+ font-style:italic;
+ font-weight:500;
+ line-height:1.6;
+ color:#f8e8cc;
+ margin-top:25px;
+}
+
+/* 3-Р ХУУДАС */
+.medallion{
+ width:155px;
+ height:155px;
+ border-radius:50%;
+ margin:32px auto;
+ border:3px solid #e3c58e;
+ background:radial-gradient(
+  circle,
+  #f1dba7 0%,
+  #c59a59 55%,
+  #8a5739 80%,
+  #e9c987
+ );
+ box-shadow:
+  0 0 0 8px rgba(198,156,89,.18),
+  0 0 40px rgba(224,187,118,.25);
+ display:grid;
+ place-items:center;
+ color:#59213a;
+ position:relative;
+}
+.medallion:before{
+ content:"";
+ position:absolute;
+ inset:9px;
+ border:1px solid #75482c;
+ border-radius:50%;
+}
+.medallion span{
+ font-size:65px;
+}
+.section-title{
+ font-family:'Cormorant Garamond',serif;
+ font-size:44px;
+ color:var(--gold2);
+ font-style:italic;
+ line-height:1.2;
+}
+
+/* НАЛУУ ГОЁМСОГ БИЧВЭР */
+.celebration-script{
+ font-family:'Cormorant Garamond',serif;
+ font-size:32px;
+ font-style:italic;
+ font-weight:500;
+ line-height:1.4;
+ color:#f4dfb0;
+ text-shadow:0 2px 18px rgba(240,205,140,.2);
+}
+
+/* 4-Р ХУУДАС */
+.info-card{
+ border:1px solid rgba(208,174,115,.55);
+ background:rgba(255,247,231,.05);
+ padding:27px 15px;
+ margin:22px 0;
+}
+.info-label{
+ color:var(--gold);
+ font-size:10px;
+ letter-spacing:4px;
+ margin-bottom:14px;
+}
+
+/* ОГНОО, БАЙРШИЛ ИЖИЛ ФОНТ */
+.info-value,
+.location-name{
+ font-family:'Cormorant Garamond',serif;
+ font-size:clamp(29px,8vw,37px);
+ font-weight:500;
+ font-style:italic;
+ color:#fff0d1;
+ line-height:1.25;
+}
+.map-link{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+ margin-top:23px;
+ padding:13px 22px;
+ border:1px solid #d6b77d;
+ background:linear-gradient(135deg,#e3c58d,#b58950);
+ color:#45172b;
+ text-decoration:none;
+ font-size:11px;
+ letter-spacing:1px;
+ transition:.3s;
+}
+.map-link:active{
+ transform:scale(.96);
+}
+
+/* 5-Р ХУУДАС */
+.thanks{
+ font-family:'Cormorant Garamond',serif;
+ font-size:40px;
+ color:var(--gold2);
+ font-style:italic;
+ line-height:1.3;
+}
+.final-name{
+ font-family:'Cormorant Garamond',serif;
+ font-size:32px;
+ color:var(--gold2);
+ font-style:italic;
+ white-space:nowrap;
+ margin:20px 0;
+}
+.phone-wrap{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ margin:15px auto;
+ padding:13px 22px;
+ border:1px solid rgba(218,183,119,.75);
+ background:linear-gradient(
+  135deg,
+  rgba(240,214,170,.13),
+  rgba(240,214,170,.035)
+ );
+ box-shadow:0 5px 25px rgba(0,0,0,.12);
+ border-radius:3px;
+}
+.phone-icon{
+ font-size:20px;
+ color:var(--gold2);
+}
+.phone{
+ display:block;
+ color:#fff0d1;
+ text-decoration:none;
+ font-family:'Cormorant Garamond',serif;
+ font-size:35px;
+ font-weight:600;
+ letter-spacing:3px;
+ white-space:nowrap;
+}
+
+/* ХӨГЖМИЙН ТОВЧ */
+.music-btn{
+ position:fixed;
+ right:20px;
+ bottom:24px;
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ border:1px solid rgba(222,184,117,.55);
+ background:rgba(57,14,32,.82);
+ color:var(--gold2);
+ font-family:'Noto Serif',serif;
+ font-size:14px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ cursor:pointer;
+ z-index:20;
+ backdrop-filter:blur(8px);
+ box-shadow:0 6px 18px rgba(0,0,0,.35);
+ opacity:0;
+ pointer-events:none;
+ transition:opacity .5s ease, transform .25s ease;
+}
+.music-btn.visible{
+ opacity:1;
+ pointer-events:auto;
+}
+.music-btn:active{
+ transform:scale(.94);
+}
+
+/* ХУУДАСНЫ ДУГААР */
+.page-number{
+ position:absolute;
+ bottom:30px;
+ left:0;
+ right:0;
+ text-align:center;
+ font-family:'Cormorant Garamond',serif;
+ color:#d9bd91;
+ font-size:13px;
+ letter-spacing:5px;
+ z-index:4;
+}
+
+/* ЖИЖИГ ДЭЛГЭЦ */
+@media(max-width:380px){
+ .page{
+  padding-left:23px;
+  padding-right:23px;
+ }
+ .invite-heading{
+  font-size:48px;
+ }
+ .invite-intro,
+ .invite-description{
+  font-size:23px;
+ }
+ .invite-name{
+  font-size:30px;
+ }
+ .invite-event{
+  font-size:22px;
+ }
+ .body-text{
+  font-size:12px;
+ }
+ .celebration-script{
+  font-size:29px;
+ }
+ .final-name{
+  font-size:29px;
+ }
+ .phone{
+  font-size:32px;
+ }
+ .info-value,
+ .location-name{
+  font-size:29px;
+ }
+ .page-number{
+  bottom:25px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html{
+  scroll-behavior:auto;
+ }
+ .content > *{
+  animation:none!important;
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="music.mp3.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Хөгжим удирдах" title="Хөгжим асаах / унтраах">♪</button>
+
+<!-- 1-Р ХУУДАС: НҮҮР -->
+<section class="page is-visible" id="cover">
+ <div class="light"></div>
+ <div class="particles"></div>
+ <div class="content" id="coverContent">
+  <div class="ornament">❧</div>
+  <h1 class="cover-title">
+   Танд урилга<br>ирлээ
+  </h1>
+  <div class="line"></div>
+  <div class="envelope" id="envelope"
+       onclick="openInvitation()">
+   <div class="env-back"></div>
+   <div class="env-reveal-photo">
+    <img src="photo.jpg" alt="Урилгын зураг">
+   </div>
+   <div class="env-flap"></div>
+   <div class="env-front"></div>
+   <div class="seal">
+    <span class="seal-flower">❀</span>
+   </div>
+  </div>
+  <button class="open-button"
+          onclick="openInvitation()">
+   УРИЛГА НЭЭХ
+  </button>
+  <div class="cover-hint">
+   ✦ ДАРЖ НЭЭНЭ ҮҮ ✦
+  </div>
+ </div>
+ <div class="page-number">01 — 05</div>
+</section>
+
+<!-- 2-Р ХУУДАС: УРИЛГА -->
+<section class="page" id="invitation">
+ <div class="light"></div>
+ <div class="particles"></div>
+ <div class="content">
+  <div class="ornament">❧</div>
+  <h1 class="invite-heading">
+   Урилга
+  </h1>
+  <div class="line"></div>
+  <p class="invite-intro">
+   Эрхэм хүндэт таныг
+  </p>
+  <p class="invite-name">
+   Батбаяр овогтой Ариунаагийн
+  </p>
+  <h2 class="invite-event">
+   АЛДАРТ ЭХИЙН<br>
+   2-Р ОДОНГИЙН
+  </h2>
+  <div class="line"></div>
+  <p class="invite-description">
+   цайллагад гэр бүлийн хамт<br>
+   хүрэлцэн ирнэ үү хэмээн хүндэтгэн<br>
+   урьж байна.
+  </p>
+  <div class="ornament">✧</div>
+ </div>
+ <div class="page-number">02 — 05</div>
+</section>
+
+<!-- 3-Р ХУУДАС: ХҮНДЭТГЭЛ -->
+<section class="page" id="celebration">
+ <div class="light"></div>
+ <div class="particles"></div>
+ <div class="content">
+  <div class="kicker"
+       style="font-size:10px;letter-spacing:4px;color:var(--gold)">
+   ЭХИЙН ХАЙРЫН БЭЛГЭДЭЛ
+  </div>
+  <div class="medallion">
+   <span>❀</span>
+  </div>
+  <h2 class="section-title">
+   Алдарт эх
+  </h2>
+  <div class="line"></div>
+  <p class="celebration-script">
+   Эрдэнэт үрсийнхээ буянаар Эрхэм хүндтэй шагнал хүртлээ
+  </p>
+  <div class="line"></div>
+  <div class="ornament">✧ ❧ ✧</div>
+  <p class="body-text">
+
+  </p>
+ </div>
+ <div class="page-number">03 — 05</div>
+</section>
+
+<!-- 4-Р ХУУДАС: ОГНОО, БАЙРШИЛ -->
+<section class="page" id="details">
+ <div class="light"></div>
+ <div class="particles"></div>
+ <div class="content">
+  <div class="ornament">✧</div>
+  <div class="info-card">
+   <div class="info-label">
+    ОГНОО
+   </div>
+   <div class="info-value">
+    2027 оны 3-р сарын 20-нд
+   </div>
+  </div>
+  <div class="info-card">
+   <div class="info-label">
+    БАЙРШИЛ
+   </div>
+   <div class="location-name">
+    "Flora Wedding Hall"
+     4-р давхар
+   </div>
+   <a
+    class="map-link"
+    href="https://www.google.com/maps/search/?api=1&query=Flora+Wedding+Hall+Ulaanbaatar"
+    target="_blank"
+    rel="noopener noreferrer"
+   >
+    <span>⌖</span>
+    Газрын зураг дээр нээх
+   </a>
+  </div>
+  <div class="ornament">❧</div>
+ </div>
+ <div class="page-number">04 — 05</div>
+</section>
+
+<!-- 5-Р ХУУДАС: ТӨГСГӨЛ -->
+<section class="page" id="ending">
+ <div class="light"></div>
+ <div class="particles"></div>
+ <div class="content">
+  <div class="ornament">❧</div>
+  <h2 class="thanks">
+   Хүндэтгэсэн
+  </h2>
+  <div class="line"></div>
+  <div class="final-name">
+   Ч.Саруулын гэр бүл
+  </div>
+  <div class="ornament">✧</div>
+  <div class="info-label">
+   ХОЛБОГДОХ УТАС
+  </div>
+  <div class="phone-wrap">
+   <span class="phone-icon">✆</span>
+   <a class="phone" href="tel:99998888">
+    9999 8888
+   </a>
+  </div>
+  <div class="line"></div>
+ </div>
+ <div class="page-number">05 — 05</div>
+</section>
+
+<script>
+/* АЛТАН ТООСОНЦОР */
+document.querySelectorAll('.particles').forEach(box=>{
+ for(let i=0;i<24;i++){
+  const p=document.createElement('span');
+  p.className='spark';
+  p.style.left=Math.random()*100+'%';
+  p.style.top=Math.random()*100+'%';
+  p.style.animationDuration=
+   (5+Math.random()*8)+'s';
+  p.style.animationDelay=
+   (Math.random()*7)+'s';
+  box.appendChild(p);
+ }
+});
+
+/* ХУУДАС БҮРТ БИЧВЭР УРСАЖ ГАРАХ */
+const pages=document.querySelectorAll('.page');
+const observer=new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   entry.target.classList.add('is-visible');
+  }else{
+   if(entry.target.id!=='cover'){
+    entry.target.classList.remove('is-visible');
+   }
+  }
+ });
+},{
+ threshold:0.25
+});
+pages.forEach(page=>{
+ observer.observe(page);
+});
+
+/* ДУГТУЙ НЭЭХ БА ХӨГЖИМ ЭХЛҮҮЛЭХ */
+let isOpened=false;
+function startMusic(){
+ const music=document.getElementById('bgMusic');
+ const btn=document.getElementById('musicBtn');
+ if(!music)return;
+ btn.classList.add('visible');
+ music.play().then(()=>{
+  btn.textContent='❚❚';
+ }).catch(()=>{
+  btn.textContent='♪';
+ });
+}
+
+function toggleMusic(){
+ const music=document.getElementById('bgMusic');
+ const btn=document.getElementById('musicBtn');
+ if(!music)return;
+ if(music.paused){
+  music.play().then(()=>{
+   btn.textContent='❚❚';
+  }).catch(()=>{});
+ }else{
+  music.pause();
+  btn.textContent='♪';
+ }
+}
+
+function openInvitation(){
+ startMusic();
+ if(isOpened)return;
+ isOpened=true;
+ const envelope=document.getElementById('envelope');
+ const coverContent=document.getElementById('coverContent');
+ envelope.classList.add('open');
+ setTimeout(()=>{
+  coverContent.style.transition=
+   'opacity 1s ease, transform 1s ease';
+  coverContent.style.opacity='0';
+  coverContent.style.transform='translateY(-35px)';
+ },1850);
+ setTimeout(()=>{
+  document.getElementById('invitation').scrollIntoView({
+   behavior:'smooth',
+   block:'start'
+  });
+ },2650);
+}
+</script>
+
+</body>
+</html>
