@@ -881,6 +881,7 @@ function startMusic(){
  const btn=document.getElementById('musicBtn');
  if(!music)return;
  btn.classList.add('visible');
+ music.currentTime=25;
  music.play().then(()=>{
   btn.textContent='❚❚';
  }).catch(()=>{
